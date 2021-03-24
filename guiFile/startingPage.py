@@ -30,14 +30,16 @@ class windowHandler(QtWidgets.QWidget):
 
     def init_ui(self):
         #crea una textbox in cui poter inserire del testo
-        self.le = QtWidgets.QLineEdit()
-        self.bClear = QtWidgets.QPushButton("Clear")
-        self.bPrint = QtWidgets.QPushButton("Print")
+
+        h_box_le = self.setInputLineEdit()
+        h_box_button = self.setButtonHBox()
+        h_box_checkBox = self.setCheckBoxHbox()
 
         v_box = QtWidgets.QVBoxLayout()
-        v_box.addWidget(self.le)
-        v_box.addWidget(self.bClear)
-        v_box.addWidget(self.bPrint)
+        v_box.addLayout(h_box_le)
+        v_box.addLayout(h_box_checkBox)
+        v_box.addLayout(h_box_button)
+
 
         self.setLayout(v_box)
 
@@ -53,8 +55,42 @@ class windowHandler(QtWidgets.QWidget):
         if sender.text() == "Print":
             print(self.le.text())
         else:
+            #pulisce l'input della casella di testo
             self.le.clear()
 
+    def setInputLineEdit(self):
+        h_box_le = QtWidgets.QHBoxLayout()
+        self.labelPath = QtWidgets.QLabel("Insert the where the file will be saved")
+        self.lePath = QtWidgets.QLineEdit()
+        self.labelUrl = QtWidgets.QLabel("Insert the video url")
+        self.leUrl = QtWidgets.QLineEdit()
+        h_box_le.addWidget(self.labelPath)
+        h_box_le.addWidget(self.lePath)
+
+        h_box_le.addWidget(self.labelUrl)
+        h_box_le.addWidget(self.leUrl)
+
+        return h_box_le
+
+    def setButtonHBox(self):
+        h_box_button = QtWidgets.QHBoxLayout()
+        self.bClear = QtWidgets.QPushButton("Clear")
+        self.bPrint = QtWidgets.QPushButton("Print")
+        h_box_button.addWidget(self.bPrint)
+        h_box_button.addWidget(self.bClear)
+
+        return h_box_button
+
+    def setCheckBoxHbox(self):
+        h_box_checkBox = QtWidgets.QHBoxLayout()
+        self.labelCheck = QtWidgets.QLabel("What type of format you want to download?")
+        self.mp4CeckBox = QtWidgets.QCheckBox("Mp4")
+        self.mp3CeckBox = QtWidgets.QCheckBox("Mp3")
+        h_box_checkBox.addWidget(self.labelCheck)
+        h_box_checkBox.addWidget(self.mp3CeckBox)
+        h_box_checkBox.addWidget(self.mp4CeckBox)
+
+        return h_box_checkBox
 
 def main_window():
     app = QtWidgets.QApplication(sys.argv)
