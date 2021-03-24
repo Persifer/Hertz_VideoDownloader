@@ -31,12 +31,14 @@ class windowHandler(QtWidgets.QWidget):
     def init_ui(self):
         #crea una textbox in cui poter inserire del testo
 
-        h_box_le = self.setInputLineEdit()
+        h_box_path = self.setPathLineEdit()
+        h_box_url = self.setUrlLineEdit()
         h_box_button = self.setButtonHBox()
         h_box_checkBox = self.setCheckBoxHbox()
 
         v_box = QtWidgets.QVBoxLayout()
-        v_box.addLayout(h_box_le)
+        v_box.addLayout(h_box_path)
+        v_box.addLayout(h_box_url)
         v_box.addLayout(h_box_checkBox)
         v_box.addLayout(h_box_button)
 
@@ -58,19 +60,25 @@ class windowHandler(QtWidgets.QWidget):
             #pulisce l'input della casella di testo
             self.le.clear()
 
-    def setInputLineEdit(self):
-        h_box_le = QtWidgets.QHBoxLayout()
+    def setPathLineEdit(self):
+        grid_layout = QtWidgets.QGridLayout()
         self.labelPath = QtWidgets.QLabel("Insert the where the file will be saved")
         self.lePath = QtWidgets.QLineEdit()
+
+        grid_layout.addWidget(self.labelPath)
+        grid_layout.addWidget(self.lePath)
+
+        return grid_layout
+
+    def setUrlLineEdit(self):
+        grid_layout = QtWidgets.QGridLayout()
         self.labelUrl = QtWidgets.QLabel("Insert the video url")
         self.leUrl = QtWidgets.QLineEdit()
-        h_box_le.addWidget(self.labelPath)
-        h_box_le.addWidget(self.lePath)
 
-        h_box_le.addWidget(self.labelUrl)
-        h_box_le.addWidget(self.leUrl)
+        grid_layout.addWidget(self.labelUrl)
+        grid_layout.addWidget(self.leUrl)
 
-        return h_box_le
+        return grid_layout
 
     def setButtonHBox(self):
         h_box_button = QtWidgets.QHBoxLayout()
@@ -97,3 +105,4 @@ def main_window():
     win= windowHandler()
     win.show()
     sys.exit(app.exec_())
+
