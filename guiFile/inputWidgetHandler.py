@@ -24,15 +24,12 @@ class InputWidget(QWidget):
         v_box.addLayout(h_box_checkBox)
         v_box.addLayout(h_box_button)
 
-
         self.setLayout(v_box)
 
         #richiama la funzione che si occupa di gestire le azioni che si dovranno svolgere quando si preme il pulsante
         self.bClear.clicked.connect(self.btn_click)
         self.bPrint.clicked.connect(self.btn_click)
 
-        self.setWindowTitle("Hert VideoDonwloader")
-        self.show()
 
     def btn_click(self):
         sender = self.sender()
