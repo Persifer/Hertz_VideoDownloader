@@ -1,13 +1,10 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget
-import sys
-
 
 class InputWidget(QWidget):
 
     def __init__(self):
         super().__init__()
-
         self.init_ui()
 
     def init_ui(self):
@@ -16,7 +13,7 @@ class InputWidget(QWidget):
         h_box_path = self.setPathLineEdit()
         h_box_url = self.setUrlLineEdit()
         h_box_button = self.setButtonHBox()
-        h_box_checkBox = self.setCheckBoxHbox()
+        h_box_checkBox = self.radio_button()
 
         v_box = QtWidgets.QVBoxLayout()
         v_box.addLayout(h_box_path)
@@ -26,18 +23,30 @@ class InputWidget(QWidget):
 
         self.setLayout(v_box)
 
-        #richiama la funzione che si occupa di gestire le azioni che si dovranno svolgere quando si preme il pulsante
-        self.bClear.clicked.connect(self.btn_click)
-        self.bPrint.clicked.connect(self.btn_click)
+    def radio_button(self):
+        h_box = QtWidgets.QHBoxLayout()
+        grid = QtWidgets.QGridLayout()
+        labelRadio = QtWidgets.QLabel("Insert the where the file will be saved")
+        self.btnMp4 = QtWidgets.QRadioButton("Mp4")
+        self.btnMp3 = QtWidgets.QRadioButton("Mp3")
+        self.lbl = QtWidgets.QLabel("")
 
+        h_box.addWidget(self.btnMp4)
+        h_box.addWidget(self.btnMp3)
+        self.btnMp4.toggled.connect(self.onRadioChoise)
+        self.btnMp3.toggled.connect(self.onRadioChoise)
 
-    def btn_click(self):
-        sender = self.sender()
-        if sender.text() == "Print":
-            print(self.le.text())
-        else:
-            #pulisce l'input della casella di testo
-            self.le.clear()
+        grid.addWidget(labelRadio)
+        grid.addWidget(self.btnMp4)
+        grid.addWidget(self.btnMp3)
+        grid.addWidget(self.lbl)
+
+        return grid
+
+    def onRadioChoise(self):
+        selectedRadioBtn = self.sender()
+        if selectedRadioBtn.isChecked():
+            self.lbl.setText("Hai scelto "+selectedRadioBtn.text())
 
     def setPathLineEdit(self):
         grid_layout = QtWidgets.QGridLayout()
@@ -67,14 +76,3 @@ class InputWidget(QWidget):
         h_box_button.addWidget(self.bClear)
 
         return h_box_button
-
-    def setCheckBoxHbox(self):
-        h_box_checkBox = QtWidgets.QHBoxLayout()
-        self.labelCheck = QtWidgets.QLabel("What type of format you want to download?")
-        self.mp4CeckBox = QtWidgets.QCheckBox("Mp4")
-        self.mp3CeckBox = QtWidgets.QCheckBox("Mp3")
-        h_box_checkBox.addWidget(self.labelCheck)
-        h_box_checkBox.addWidget(self.mp3CeckBox)
-        h_box_checkBox.addWidget(self.mp4CeckBox)
-
-        return h_box_checkBox

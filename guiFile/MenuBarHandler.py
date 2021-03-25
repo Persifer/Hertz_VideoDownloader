@@ -18,6 +18,7 @@ class CompleteGui(QMainWindow):
         self.PrintMenuBar()
 
         self.setWindowTitle("Hert VideoDonwloader")
+        self.setGeometry(400,400,500,350)
 
     def PrintMenuBar(self):
         menu_bar = self.menuBar()
@@ -29,5 +30,5 @@ class CompleteGui(QMainWindow):
         exitAction.triggered.connect(qApp.quit)
 
         self.statusBar()
-        
+
         menuOption.addAction(exitAction)
