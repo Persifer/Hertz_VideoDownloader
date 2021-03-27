@@ -4,10 +4,14 @@ import fileHandler as fh
 from moviepy.editor import *
 
 def StreamsVideo(streams):
-    print("Queste sono le risoluzioni per il video selezionato")
+    #print("Queste sono le risoluzioni per il video selezionato")
+    list = []
     for stream in streams.filter(file_extension="mp4", mime_type="video/mp4", adaptive=True, fps=30):
-        if "av01" in str(stream.video_codec[0:4]):
-            print("Risoluzione: "+stream.resolution)
+       if "av01" in str(stream.video_codec[0:4]):
+           #print("Risoluzione: "+stream.resolution)
+           list.append(stream.resolution)
+    return list
+    #return ["1080p", "720p", "480p", "360p"]
 
 
 def downloadVideo(streams, title, res):
@@ -90,6 +94,7 @@ def downloadVideoHandler(streams, path, audio):
     except Exception as error:
         print("Non sono riuscito a scaricare il video :(")
         print("Error" + str(error))
+
 
 
 def downloadVideoByUrl(url, downloadPath):

@@ -1,23 +1,31 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget
+from videoDownloadHandlers.videoDownloadHandler import StreamsVideo
 
 class InputWidget(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.path = ""
+        self.url = ""
+        self.res = ""
+        self.audio = False
         self.init_ui()
 
     def init_ui(self):
         #crea una textbox in cui poter inserire del testo
 
+        grid_combo = self.setResComboBox()
         h_box_path = self.setPathLineEdit()
         h_box_url = self.setUrlLineEdit()
         h_box_button = self.setButtonHBox()
         h_box_checkBox = self.radio_button()
 
+
         v_box = QtWidgets.QVBoxLayout()
         v_box.addLayout(h_box_path)
         v_box.addLayout(h_box_url)
+        v_box.addLayout(grid_combo)
         v_box.addLayout(h_box_checkBox)
         v_box.addLayout(h_box_button)
 
@@ -33,6 +41,7 @@ class InputWidget(QWidget):
 
         h_box.addWidget(self.btnMp4)
         h_box.addWidget(self.btnMp3)
+
         self.btnMp4.toggled.connect(self.onRadioChoise)
         self.btnMp3.toggled.connect(self.onRadioChoise)
 
@@ -63,6 +72,8 @@ class InputWidget(QWidget):
         self.labelUrl = QtWidgets.QLabel("Insert the video url")
         self.leUrl = QtWidgets.QLineEdit()
 
+        self.leUrl.returnPressed.connect(self.showResolution)
+
         grid_layout.addWidget(self.labelUrl)
         grid_layout.addWidget(self.leUrl)
 
@@ -70,9 +81,34 @@ class InputWidget(QWidget):
 
     def setButtonHBox(self):
         h_box_button = QtWidgets.QHBoxLayout()
-        self.bClear = QtWidgets.QPushButton("Clear")
-        self.bPrint = QtWidgets.QPushButton("Print")
-        h_box_button.addWidget(self.bPrint)
+        self.bClear = QtWidgets.QPushButton("Download")
+        #self.bPrint = QtWidgets.QPushButton("Print")
+        #h_box_button.addWidget(self.bPrint)
         h_box_button.addWidget(self.bClear)
 
         return h_box_button
+
+    def setResComboBox(self):
+        gridBox = QtWidgets.QGridLayout()
+        self.resLabel = QtWidgets.QLabel()
+        self.resComboBox = QtWidgets.QComboBox()
+
+        self.resLabel.setHidden(True)
+        self.resComboBox.setHidden(True)
+
+        gridBox.addWidget(self.resLabel)
+        gridBox.addWidget(self.resComboBox)
+
+        return gridBox
+
+    def showResolution(self):
+        url = self.sender()
+        stream = StreamsVideo(url.text())
+        #print(stream)
+
+        self.resLabel.setHidden(False)
+        self.resLabel.setText("Inserisci la risoluzione desiderata")
+
+        self.resComboBox.setHidden(False)
+        for res in stream:
+            self.resComboBox.addItem(res)
