@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget
-from videoDownloadHandlers.videoDownloadHandler import StreamsVideo
+from PyQt5 import QtWidgets, Qt, QtGui
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
+from videoDownloadHandlers.videoDownloadHandler import StreamsVideo, getYouTubeRef
 
 class InputWidget(QWidget):
 
@@ -61,11 +61,24 @@ class InputWidget(QWidget):
         grid_layout = QtWidgets.QGridLayout()
         self.labelPath = QtWidgets.QLabel("Insert the where the file will be saved")
         self.lePath = QtWidgets.QLineEdit()
+        self.pathButton = QtWidgets.QPushButton()
+        self.pathButton.setText("Apri")
+        self.pathButton.clicked.connect(self.showPathDialog)
+        self.pathButton.setGeometry(30,30,30,30)
 
         grid_layout.addWidget(self.labelPath)
-        grid_layout.addWidget(self.lePath)
+        grid_layout.addWidget(self.lePath, 1, 0)
+        grid_layout.addWidget(self.pathButton, 1, 1)
+
 
         return grid_layout
+
+    def showPathDialog(self):
+        dlg = QtWidgets.QFileDialog()
+        dlg.setFileMode(QFileDialog.Directory)
+        self.lePath.setText(str(dlg.getExistingDirectory()))
+
+
 
     def setUrlLineEdit(self):
         grid_layout = QtWidgets.QGridLayout()
@@ -103,7 +116,7 @@ class InputWidget(QWidget):
 
     def showResolution(self):
         url = self.sender()
-        stream = StreamsVideo(url.text())
+        stream = StreamsVideo(getYouTubeRef(url.text()))
         #print(stream)
 
         self.resLabel.setHidden(False)

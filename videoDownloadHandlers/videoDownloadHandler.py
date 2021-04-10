@@ -96,6 +96,8 @@ def downloadVideoHandler(streams, path, audio):
         print("Error" + str(error))
 
 
+def getYouTubeRef(url):
+    return YouTube(url)
 
 def downloadVideoByUrl(url, downloadPath):
 
