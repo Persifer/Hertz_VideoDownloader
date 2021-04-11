@@ -130,10 +130,9 @@ class InputWidget(QWidget):
     def downloadVideo(self):
         url = self.leUrl.text()
         path = self.lePath.text()
-        res = ""
         if self.resComboBox.currentText() == "Audio - Mp3":
             self.audio = True
-            res = self.resComboBox.itemText(0)
+            res = self.resComboBox.itemText(-1)
         else:
             res = self.resComboBox.currentText()
 
