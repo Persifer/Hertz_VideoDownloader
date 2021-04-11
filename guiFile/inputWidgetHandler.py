@@ -90,6 +90,9 @@ class InputWidget(QWidget):
     def setButtonHBox(self):
         h_box_button = QtWidgets.QHBoxLayout()
         self.bClear = QtWidgets.QPushButton("Download")
+
+        self.bClear.clicked.connect(self.downloadVideo)
+
         #self.bPrint = QtWidgets.QPushButton("Print")
         #h_box_button.addWidget(self.bPrint)
         h_box_button.addWidget(self.bClear)
@@ -123,6 +126,30 @@ class InputWidget(QWidget):
         for res in stream:
             self.resComboBox.addItem(res)
 
+        #self.resComboBox.activated.connect(self.selectRes())
+
+
+    def selectRes(self):
+        if self.resComboBox.currentText() == "Audio - Mp3":
+            self.audio = True
+            self.res = self.resComboBox.itemText(0)
+        else:
+            self.res = self.resComboBox.currentText()
+
+    def downloadVideo(self):
+        url = self.leUrl.text()
+        path = self.lePath.text()
+        res = ""
+        if self.resComboBox.currentText() == "Audio - Mp3":
+            self.audio = True
+            res = self.resComboBox.itemText(0)
+        else:
+            res = self.resComboBox.currentText()
+            
+        print("Url: " + url)
+        print("Path: " + path)
+        print("Res: " + res)
+        print("Audio: " + str(self.audio))
 
 #TODO
 #   - Provare a far funzionare la possibilità di vedere le risoluzioni di un video!
