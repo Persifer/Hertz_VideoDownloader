@@ -56,19 +56,7 @@ def checkResolutionExistence(streamList, audio, res):
         return True
 
 #function that allows to download the video and controll if everything is okay
-def downloadVideoHandler(streams, path, audio):
-    resolution = ""
-    if not audio:
-        resolution = str(input("Inserisci la risoluzione con cui vuoi scaricare il video\n-->"))
-        while(True):
-
-            if checkResolutionExistence(streams.filter(file_extension="mp4", mime_type="video/mp4", adaptive=True, fps=30),
-            audio, resolution):
-                break
-            else:
-                resolution = str(input("Reinserisci la risoluzione con cui vuoi scaricare il video"
-                                       "\n La precedente è sbagliata\n-->"))
-                continue
+def downloadVideoHandler(streams, path, audio, resolution):
 
     # take the title of the video
     title = streams.filter(file_extension="mp4", mime_type="video/mp4").first().title
@@ -101,20 +89,18 @@ def getYouTubeRef(url):
     video = YouTube(url)
     return video
 
-def downloadVideoByUrl(url, downloadPath):
+def downloadVideoByUrl(url, downloadPath, res, audio):
 
     os.chdir(downloadPath)
     video = YouTube(url)
-    chose = str(input("Cosa vuoi scaricare? \n1) Solo audio \n2) Video\n3) Esci\n--> "))
+    # chose = str(input("Cosa vuoi scaricare? \n1) Solo audio \n2) Video\n3) Esci\n--> "))
 
-    if chose.lower()=="audio" or chose=="1":
+    if audio:
         #StreamsVideo()
-        downloadVideoHandler(video.streams, downloadPath, True)
-    elif chose=="2":
-        StreamsVideo(video.streams)
-        downloadVideoHandler(video.streams, downloadPath, False)
+        downloadVideoHandler(video.streams, downloadPath, audio, res)
     else:
-        print("Cià")
+        StreamsVideo(video.streams)
+        downloadVideoHandler(video.streams, downloadPath, audio, res)
 
 # https://www.youtube.com/watch?v=yKVmrjfzZLE
 # https://www.youtube.com/watch?v=PCicKydX5GE -> 3 Sec Video

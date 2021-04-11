@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, Qt, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
-from videoDownloadHandlers.videoDownloadHandler import StreamsVideo, getYouTubeRef
+from videoDownloadHandlers.videoDownloadHandler import StreamsVideo, getYouTubeRef, downloadVideoByUrl
 
 class InputWidget(QWidget):
 
@@ -126,15 +126,6 @@ class InputWidget(QWidget):
         for res in stream:
             self.resComboBox.addItem(res)
 
-        #self.resComboBox.activated.connect(self.selectRes())
-
-
-    def selectRes(self):
-        if self.resComboBox.currentText() == "Audio - Mp3":
-            self.audio = True
-            self.res = self.resComboBox.itemText(0)
-        else:
-            self.res = self.resComboBox.currentText()
 
     def downloadVideo(self):
         url = self.leUrl.text()
@@ -145,11 +136,13 @@ class InputWidget(QWidget):
             res = self.resComboBox.itemText(0)
         else:
             res = self.resComboBox.currentText()
-            
+
         print("Url: " + url)
         print("Path: " + path)
         print("Res: " + res)
         print("Audio: " + str(self.audio))
+
+        downloadVideoByUrl(url, path, self.audio, res)
 
 #TODO
 #   - Provare a far funzionare la possibilità di vedere le risoluzioni di un video!
