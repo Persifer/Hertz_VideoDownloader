@@ -7,6 +7,7 @@ def StreamsVideo(streams):
     #print("Queste sono le risoluzioni per il video selezionato")
     list = []
     for stream in streams.filter(file_extension="mp4", mime_type="video/mp4", adaptive=True, fps=30):
+    #for stream in streams.filter(file_extension="mp4", mime_type="video/mp4"):
        if "av01" in str(stream.video_codec[0:4]):
            #print("Risoluzione: "+stream.resolution)
            list.append(stream.resolution)
@@ -97,7 +98,8 @@ def downloadVideoHandler(streams, path, audio):
 
 
 def getYouTubeRef(url):
-    return YouTube(url)
+    video = YouTube(url)
+    return video
 
 def downloadVideoByUrl(url, downloadPath):
 
@@ -113,3 +115,6 @@ def downloadVideoByUrl(url, downloadPath):
         downloadVideoHandler(video.streams, downloadPath, False)
     else:
         print("Cià")
+
+# https://www.youtube.com/watch?v=yKVmrjfzZLE
+# https://www.youtube.com/watch?v=PCicKydX5GE -> 3 Sec Video

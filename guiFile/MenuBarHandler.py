@@ -17,8 +17,8 @@ class CompleteGui(QMainWindow):
 
         self.PrintMenuBar()
 
-        self.setWindowTitle("Hert VideoDonwloader")
-        self.setGeometry(400,400,500,350)
+        self.setWindowTitle("Hertz VideoDownloader")
+        self.setGeometry(400, 400, 500, 350)
 
     def PrintMenuBar(self):
         menu_bar = self.menuBar()
