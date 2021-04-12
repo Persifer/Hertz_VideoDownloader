@@ -1,3 +1,5 @@
+import time
+
 from PyQt5 import QtWidgets, Qt, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
 from videoDownloadHandlers.videoDownloadHandler import StreamsVideo, getYouTubeRef, downloadVideoByUrl
@@ -56,10 +58,11 @@ class InputWidget(QWidget):
         grid_layout = QtWidgets.QGridLayout()
         self.labelPath = QtWidgets.QLabel("Insert the where the file will be saved")
         self.lePath = QtWidgets.QLineEdit()
+        self.lePath.setDisabled(True)
         self.pathButton = QtWidgets.QPushButton()
         self.pathButton.setText("Apri")
         self.pathButton.clicked.connect(self.showPathDialog)
-        self.pathButton.setGeometry(30,30,30,30)
+        self.pathButton.setGeometry(30, 30, 30, 30)
 
         grid_layout.addWidget(self.labelPath)
         grid_layout.addWidget(self.lePath, 1, 0)
@@ -69,6 +72,7 @@ class InputWidget(QWidget):
         return grid_layout
 
     def showPathDialog(self):
+        self.lePath.setDisabled(False)
         dlg = QtWidgets.QFileDialog()
         dlg.setFileMode(QFileDialog.Directory)
         self.lePath.setText(str(dlg.getExistingDirectory()))
@@ -79,7 +83,7 @@ class InputWidget(QWidget):
         self.labelUrl = QtWidgets.QLabel("Insert the video url")
         self.leUrl = QtWidgets.QLineEdit()
 
-        self.leUrl.returnPressed.connect(self.showResolution)
+        self.leUrl.textEdited.connect(self.showResolution)
         #self.leUrl.textEdited.connect(self.showResolution)
 
         grid_layout.addWidget(self.labelUrl)
@@ -115,6 +119,7 @@ class InputWidget(QWidget):
     def showResolution(self):
         url = self.leUrl.text()
         url.replace(" ", "")
+        time.sleep(1)
         url = getYouTubeRef(url)
         stream = StreamsVideo(url.streams)
         stream.append("Audio - Mp3")
@@ -126,14 +131,14 @@ class InputWidget(QWidget):
         for res in stream:
             self.resComboBox.addItem(res)
 
-
     def downloadVideo(self):
         url = self.leUrl.text()
         path = self.lePath.text()
         if self.resComboBox.currentText() == "Audio - Mp3":
             self.audio = True
-            res = self.resComboBox.itemText(-1)
+            res = self.resComboBox.itemText(0)
         else:
+            self.audio = False
             res = self.resComboBox.currentText()
 
         print("Url: " + url)
@@ -141,7 +146,4 @@ class InputWidget(QWidget):
         print("Res: " + res)
         print("Audio: " + str(self.audio))
 
-        downloadVideoByUrl(url, path, self.audio, res)
-
-#TODO
-#   - Provare a far funzionare la possibilità di vedere le risoluzioni di un video!
+        downloadVideoByUrl(url, path, res, self.audio)

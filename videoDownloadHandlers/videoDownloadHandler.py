@@ -94,13 +94,8 @@ def downloadVideoByUrl(url, downloadPath, res, audio):
     os.chdir(downloadPath)
     video = YouTube(url)
     # chose = str(input("Cosa vuoi scaricare? \n1) Solo audio \n2) Video\n3) Esci\n--> "))
+    downloadVideoHandler(video.streams, downloadPath, audio, res)
 
-    if audio:
-        #StreamsVideo()
-        downloadVideoHandler(video.streams, downloadPath, audio, res)
-    else:
-        StreamsVideo(video.streams)
-        downloadVideoHandler(video.streams, downloadPath, audio, res)
 
 # https://www.youtube.com/watch?v=yKVmrjfzZLE
 # https://www.youtube.com/watch?v=PCicKydX5GE -> 3 Sec Video
