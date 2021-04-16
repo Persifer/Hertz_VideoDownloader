@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui, uic
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp
-from inputWidgetHandler import InputWidget
+import inputWidgetHandler
 import sys
 
 
@@ -8,9 +8,8 @@ class CompleteGui(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.widget = InputWidget()
+        self.widget = inputWidgetHandler.InputWidget()
         self.setCentralWidget(self.widget)
-
         self.init_ui()
 
     def init_ui(self):

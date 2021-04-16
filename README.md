@@ -1,2 +1,4 @@
 # Hertz_VideoDownloader
-This video downloader sucks, but it works!
+
+This program is a simple video downloader, not more
+
