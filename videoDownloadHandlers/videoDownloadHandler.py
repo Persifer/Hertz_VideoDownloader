@@ -8,9 +8,9 @@ def StreamsVideo(streams):
     list = []
     for stream in streams.filter(file_extension="mp4", mime_type="video/mp4", adaptive=True, fps=30):
     #for stream in streams.filter(file_extension="mp4", mime_type="video/mp4"):
-       if "av01" in str(stream.video_codec[0:4]):
+       #if "av01" in str(stream.video_codec[0:4]):
            #print("Risoluzione: "+stream.resolution)
-           list.append(stream.resolution)
+        list.append(stream.resolution)
     return list
     #return ["1080p", "720p", "480p", "360p"]
 
