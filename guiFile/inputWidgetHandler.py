@@ -3,6 +3,7 @@ import time
 from PyQt5 import QtWidgets, Qt, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
 from videoDownloadHandlers.videoDownloadHandler import StreamsVideo, getYouTubeRef, downloadVideoByUrl
+import beepy
 
 class InputWidget(QWidget):
 
@@ -131,6 +132,24 @@ class InputWidget(QWidget):
         for res in stream:
             self.resComboBox.addItem(res)
 
+    def playSound(self):
+        # duration = 500 # milliseconds
+        # freq = 800  # Hz
+        # winsound.Beep(freq, duration)
+        pass
+
+    def init_box(self, text):
+        # msg = QtWidgets.QMessageBox()
+        # msg.setIcon(QtWidgets.QMessageBox.Information)
+        # msg.setText(text)
+        # msg.setWindowTitle("Download completed")
+        # msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        # msg.exec_()
+        beepy.beep(sound=4)
+        QtWidgets.QMessageBox.question(self, 'Download', 'Ho finito di scaricare il video.'+
+                                               '\nOra puoi guardarlo in tutta tranquilità!',
+                                     QtWidgets.QMessageBox.Ok)
+
     def downloadVideo(self):
         url = self.leUrl.text()
         path = self.lePath.text()
@@ -146,4 +165,7 @@ class InputWidget(QWidget):
         print("Res: " + res)
         print("Audio: " + str(self.audio))
 
-        downloadVideoByUrl(url, path, res, self.audio)
+        if downloadVideoByUrl(url, path, res, self.audio):
+            self.init_box("Ho completato il download del video, ora puoi \n guardarlo")
+        else:
+            print("Hi")
