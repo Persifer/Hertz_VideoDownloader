@@ -164,11 +164,9 @@ class InputWidget(QWidget):
             print("Res: " + res)
             print("Audio: " + str(self.audio))
 
-            curr = downloadVideoByUrl(url, path, res, self.audio)
-
-            if curr:
-                self.succes_box("Ho completato il download del video, ora puoi \n guardarlo")
+            if downloadVideoByUrl(url, path, res, self.audio):
+                self.succes_box()
             else:
-                print(curr)
+                self.error_box("Non sono riuscito a scaricare il video :(")
         else:
             self.error_box(error)
