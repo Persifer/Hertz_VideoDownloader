@@ -1,5 +1,4 @@
 import startingPage as home
-import os
 
 if __name__ == "__main__":
     home.main_window()

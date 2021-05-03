@@ -1,10 +1,7 @@
 import os
-import time
-
 from PyQt5 import QtWidgets, Qt, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
 from videoDownloadHandlers.videoDownloadHandler import StreamsVideo, getYouTubeRef, downloadVideoByUrl
-import beepy
 
 class InputWidget(QWidget):
 
