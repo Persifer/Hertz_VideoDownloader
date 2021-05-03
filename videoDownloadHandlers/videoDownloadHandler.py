@@ -22,7 +22,7 @@ def downloadVideo(streams, title, res):
         # download the video as a mp4 in the selected directory stored in path
         streams.filter(file_extension="mp4", mime_type="video/mp4", resolution=res).first().download(filename=title)
         # if audio=true I want to download the video as a mp3 file
-        return False
+        return True
     except Exception as error:
         print(error)
         return False
@@ -101,7 +101,7 @@ def downloadVideoHandler(streams, path, audio, resolution):
                 #printMessageBox()
 
             else:
-                if downloadVideo(streams, path, title):
+                if downloadVideo(streams, title, resolution):
                     print("[*] Ho finito di scaricare il video! [*]")
                     return True
                 else:
@@ -123,7 +123,7 @@ def downloadVideoByUrl(url, downloadPath, res, audio):
     os.chdir(downloadPath)
     video = YouTube(url)
     # chose = str(input("Cosa vuoi scaricare? \n1) Solo audio \n2) Video\n3) Esci\n--> "))
-    return not downloadVideoHandler(video.streams, downloadPath, audio, res)
+    return downloadVideoHandler(video.streams, downloadPath, audio, res)
 
 
 # https://www.youtube.com/watch?v=yKVmrjfzZLE

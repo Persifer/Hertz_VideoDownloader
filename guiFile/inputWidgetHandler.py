@@ -132,20 +132,8 @@ class InputWidget(QWidget):
         for res in stream:
             self.resComboBox.addItem(res)
 
-    def playSound(self):
-        # duration = 500 # milliseconds
-        # freq = 800  # Hz
-        # winsound.Beep(freq, duration)
-        pass
-
     def init_box(self, text):
-        # msg = QtWidgets.QMessageBox()
-        # msg.setIcon(QtWidgets.QMessageBox.Information)
-        # msg.setText(text)
-        # msg.setWindowTitle("Download completed")
-        # msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        # msg.exec_()
-        beepy.beep(sound=4)
+        #beepy.beep(sound=4)
         QtWidgets.QMessageBox.question(self, 'Download', 'Ho finito di scaricare il video.'+
                                                '\nOra puoi guardarlo in tutta tranquilità!',
                                      QtWidgets.QMessageBox.Ok)
