@@ -1,3 +1,4 @@
+import os
 import time
 
 from PyQt5 import QtWidgets, Qt, QtGui
@@ -85,7 +86,6 @@ class InputWidget(QWidget):
         self.leUrl = QtWidgets.QLineEdit()
 
         self.leUrl.textEdited.connect(self.showResolution)
-        #self.leUrl.textEdited.connect(self.showResolution)
 
         grid_layout.addWidget(self.labelUrl)
         grid_layout.addWidget(self.leUrl)
@@ -98,8 +98,6 @@ class InputWidget(QWidget):
 
         self.bClear.clicked.connect(self.downloadVideo)
 
-        #self.bPrint = QtWidgets.QPushButton("Print")
-        #h_box_button.addWidget(self.bPrint)
         h_box_button.addWidget(self.bClear)
 
         return h_box_button
@@ -120,10 +118,10 @@ class InputWidget(QWidget):
     def showResolution(self):
         url = self.leUrl.text()
         url.replace(" ", "")
-        time.sleep(1)
         url = getYouTubeRef(url)
         stream = StreamsVideo(url.streams)
         stream.append("Audio - Mp3")
+
 
         self.resLabel.setHidden(False)
         self.resLabel.setText("Inserisci la risoluzione desiderata")
@@ -132,28 +130,45 @@ class InputWidget(QWidget):
         for res in stream:
             self.resComboBox.addItem(res)
 
-    def init_box(self, text):
+    def succes_box(self):
         #beepy.beep(sound=4)
-        QtWidgets.QMessageBox.question(self, 'Download', 'Ho finito di scaricare il video.'+
-                                               '\nOra puoi guardarlo in tutta tranquilità!',
+        QtWidgets.QMessageBox.information(self, 'Download', 'Ho finito di scaricare il video.'+
+                                               '\nPuoi trovare il file in: '+os.getcwd(),
+                                     QtWidgets.QMessageBox.Ok)
+
+    def error_box(self, text):
+        #beepy.beep(sound=4)
+        QtWidgets.QMessageBox.critical(self, 'Errore!', 'Ops, qualcosa è andato storto...'+
+                                               '\n'+text,
                                      QtWidgets.QMessageBox.Ok)
 
     def downloadVideo(self):
+        error = ""
         url = self.leUrl.text()
+        if url == "":
+            error += "Inserisci un url prima di scaricare qualcosa"
         path = self.lePath.text()
-        if self.resComboBox.currentText() == "Audio - Mp3":
-            self.audio = True
-            res = self.resComboBox.itemText(0)
-        else:
-            self.audio = False
-            res = self.resComboBox.currentText()
+        if path == "":
+            error +=  "\nInserisci dove scaricare il file"
 
-        print("Url: " + url)
-        print("Path: " + path)
-        print("Res: " + res)
-        print("Audio: " + str(self.audio))
+        if error == "":
+            if self.resComboBox.currentText() == "Audio - Mp3":
+                self.audio = True
+                res = self.resComboBox.itemText(0)
+            else:
+                self.audio = False
+                res = self.resComboBox.currentText()
 
-        if downloadVideoByUrl(url, path, res, self.audio):
-            self.init_box("Ho completato il download del video, ora puoi \n guardarlo")
+            print("Url: " + url)
+            print("Path: " + path)
+            print("Res: " + res)
+            print("Audio: " + str(self.audio))
+
+            curr = downloadVideoByUrl(url, path, res, self.audio)
+
+            if curr:
+                self.succes_box("Ho completato il download del video, ora puoi \n guardarlo")
+            else:
+                print(curr)
         else:
-            print("Hi")
+            self.error_box(error)
