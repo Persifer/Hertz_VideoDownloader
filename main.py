@@ -5,5 +5,4 @@ if __name__ == "__main__":
 
 #TODO
 # 1) Trasformare il videodownloader da funzioni a classi
-# 2) Risolvere il fatto che non sempre comudir
-# ncia la fine del download
+# 2) Aggiungere la gestione delle playlist
