@@ -20,14 +20,44 @@ class CompleteGui(QMainWindow):
         self.setGeometry(400, 400, 500, 350)
 
     def PrintMenuBar(self):
+    #     menu_bar = self.menuBar()
+    #     menuOption = menu_bar.addMenu("File")
+    #
+    #     exitAction = QAction('&Exit', self)
+    #     exitAction.setShortcut('Ctrl+Q')
+    #     exitAction.setStatusTip('Exit application')
+    #     exitAction.triggered.connect(qApp.quit)
+    #
+    #     self.statusBar()
+    #
+    #     menuOption.addAction(exitAction)
+
         menu_bar = self.menuBar()
         menuOption = menu_bar.addMenu("File")
+        aboutMenu = menu_bar.addMenu("About")
 
         exitAction = QAction('&Exit', self)
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(qApp.quit)
+        infoAction = QAction("&About", self)
 
         self.statusBar()
 
         menuOption.addAction(exitAction)
+        aboutMenu.addAction(infoAction)
+
+    def info_box(self):
+        #beepy.beep(sound=4)
+        message = """
+                      #############################################
+                      #                                           #        
+                      #    Author:                                #
+                      #      Antonio Giorgino                     #
+                      #    Contact:                               #
+                      #      giorgino.antonio32@protonmail.com    #
+                      #                                           # 
+                      #############################################
+                """
+        QtWidgets.QMessageBox.about(self,'Information', message)
+

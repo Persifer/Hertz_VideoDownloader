@@ -79,8 +79,11 @@ def downloadVideoHandler(streams, path, audio, resolution):
         # checking the file existence and if the user want also the video
         #  True = file doesn't exist | not (false = want also the video) -> True and True = true
         if fh.checkFileEsistanceName(title, path, audio) and not audio:
-            downloadVideo(streams, title, resolution)
-            print("[*] Ho finito di scaricare il video! [*]")
+            if downloadVideo(streams, title, resolution):
+                print("[*] Ho finito di scaricare il video! [*]")
+                return True
+            else:
+                return False
         #   True = file doesn't exist (.mp3)| true = only wants the audio -> True and True = true
         elif fh.checkFileEsistanceName(title, path, audio) and audio:
              if downloadAudio(streams, path, title):
