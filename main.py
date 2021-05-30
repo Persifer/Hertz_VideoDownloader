@@ -1,7 +1,16 @@
-import startingPage as home
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication
+from MenuBarHandler import CompleteGui
+import sys
 
-if __name__ == "__main__":
-    home.main_window()
+def main_window():
+    app = QtWidgets.QApplication(sys.argv)
+    win = CompleteGui()
+    win.show()
+    sys.exit(app.exec_())
+
+if __name__=='__main__':
+    main_window()
 
 #TODO
 # 1) Trasformare il videodownloader da funzioni a classi
