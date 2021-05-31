@@ -15,5 +15,6 @@ if __name__=='__main__':
 #TODO
 # 1) Trasformare il videodownloader da funzioni a classi
 # 2) Aggiungere la gestione delle playlist
-# 3) Crea un pulsante che permette al video di essere processato per il download
-# 4) Output dell'errore quando non si riesce a scaricare il video 
+# 3) Riconoscimento di path e link tramite regex
+# 4) Output dell'errore quando non si riesce a scaricare il video
+# 5) Aggiustare about

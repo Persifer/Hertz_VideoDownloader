@@ -20,17 +20,32 @@ class InputWidget(QWidget):
         h_box_path = self.setPathLineEdit()
         h_box_url = self.setUrlLineEdit()
         h_box_button = self.setButtonHBox()
-        #h_box_checkBox = self.radio_button()
+        h_box_buttonProcess = self.setButtonHBoxProcess()
 
 
         v_box = QtWidgets.QVBoxLayout()
         v_box.addLayout(h_box_path)
         v_box.addLayout(h_box_url)
+        v_box.addLayout(h_box_buttonProcess)
         v_box.addLayout(grid_combo)
         #v_box.addLayout(h_box_checkBox)
         v_box.addLayout(h_box_button)
 
         self.setLayout(v_box)
+
+    def setButtonHBoxProcess(self):
+        h_box_button = QtWidgets.QHBoxLayout()
+        self.bProcess = QtWidgets.QPushButton("Processa video")
+        self.bProcess.setHidden(True)
+
+        self.bProcess.clicked.connect(self.showResolution)
+
+        h_box_button.addWidget(self.bProcess)
+
+        return h_box_button
+
+    def showProcessButton(self):
+        self.bProcess.setHidden(False)
 
     def radio_button(self):
         grid = QtWidgets.QGridLayout()
@@ -76,13 +91,12 @@ class InputWidget(QWidget):
         dlg.setFileMode(QFileDialog.Directory)
         self.lePath.setText(str(dlg.getExistingDirectory()))
 
-
     def setUrlLineEdit(self):
         grid_layout = QtWidgets.QGridLayout()
         self.labelUrl = QtWidgets.QLabel("Insert the video url")
         self.leUrl = QtWidgets.QLineEdit()
 
-        self.leUrl.textEdited.connect(self.showResolution)
+        self.leUrl.textEdited.connect(self.showProcessButton)
 
         grid_layout.addWidget(self.labelUrl)
         grid_layout.addWidget(self.leUrl)
@@ -91,11 +105,11 @@ class InputWidget(QWidget):
 
     def setButtonHBox(self):
         h_box_button = QtWidgets.QHBoxLayout()
-        self.bClear = QtWidgets.QPushButton("Download")
+        self.bProcess = QtWidgets.QPushButton("Download")
 
-        self.bClear.clicked.connect(self.downloadVideo)
+        self.bProcess.clicked.connect(self.downloadVideo)
 
-        h_box_button.addWidget(self.bClear)
+        h_box_button.addWidget(self.bProcess)
 
         return h_box_button
 
@@ -126,6 +140,7 @@ class InputWidget(QWidget):
         self.resComboBox.setHidden(False)
         for res in stream:
             self.resComboBox.addItem(res)
+        self.bProcess.setHidden(True)
 
     def succes_box(self):
         #beepy.beep(sound=4)

@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtGui, uic
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp
 import inputWidgetHandler
 import sys
@@ -20,17 +20,6 @@ class CompleteGui(QMainWindow):
         self.setGeometry(400, 400, 500, 350)
 
     def PrintMenuBar(self):
-    #     menu_bar = self.menuBar()
-    #     menuOption = menu_bar.addMenu("File")
-    #
-    #     exitAction = QAction('&Exit', self)
-    #     exitAction.setShortcut('Ctrl+Q')
-    #     exitAction.setStatusTip('Exit application')
-    #     exitAction.triggered.connect(qApp.quit)
-    #
-    #     self.statusBar()
-    #
-    #     menuOption.addAction(exitAction)
 
         menu_bar = self.menuBar()
         menuOption = menu_bar.addMenu("File")
@@ -41,6 +30,7 @@ class CompleteGui(QMainWindow):
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(qApp.quit)
         infoAction = QAction("&About", self)
+        infoAction.triggered.connect(self.info_box)
 
         self.statusBar()
 
@@ -48,16 +38,15 @@ class CompleteGui(QMainWindow):
         aboutMenu.addAction(infoAction)
 
     def info_box(self):
-        #beepy.beep(sound=4)
         message = """
-                      #############################################
-                      #                                           #        
-                      #    Author:                                #
-                      #      Antonio Giorgino                     #
-                      #    Contact:                               #
-                      #      giorgino.antonio32@protonmail.com    #
-                      #                                           # 
-                      #############################################
+         ############################################
+         #                                                                                              #         
+         #    Author:                                                                              #
+         #      Antonio Giorgino                                                           #
+         #    Contact:                                                                            #
+         #      giorgino.antonio32@protonmail.com                          #
+         #                                                                                              # 
+         ############################################
                 """
         QtWidgets.QMessageBox.about(self,'Information', message)
 
