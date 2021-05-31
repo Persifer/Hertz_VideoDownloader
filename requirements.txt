@@ -29,8 +29,8 @@ PyQt5-Qt5==5.15.2
 PyQt5-sip==12.8.1
 pyqt5-tools==5.15.2.3.0.2
 python-dateutil==2.8.1
-python-dotenv==0.15.0
-pytube==10.4.1
+python-dotev==0.15.0
+pytube==10.
 pytz==2020.1
 pywin32==228
 pywin32-ctypes==0.2.0
