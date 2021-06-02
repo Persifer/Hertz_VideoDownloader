@@ -2,6 +2,8 @@ import os
 from PyQt5 import QtWidgets, Qt, QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog
 from videoDownloadHandlers.videoDownloadHandler import StreamsVideo, getYouTubeRef, downloadVideoByUrl
+import re
+from pathlib import Path
 
 class InputWidget(QWidget):
 
@@ -126,22 +128,28 @@ class InputWidget(QWidget):
         return gridBox
 
     def showResolution(self):
+
         url = self.leUrl.text()
-        url.replace(" ", "")
-        url = getYouTubeRef(url)
-        stream = StreamsVideo(url.streams)
-        stream.append("Audio - Mp3")
+
+        if re.match(r"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$", url):
+            url.replace(" ", "")
+            url = getYouTubeRef(url)
+            stream = StreamsVideo(url.streams)
+            stream.append("Audio - Mp3")
+
+            self.resLabel.setHidden(False)
+            self.resLabel.setText("Inserisci la risoluzione desiderata")
+
+            self.resComboBox.setHidden(False)
+            for res in stream:
+                self.resComboBox.addItem(res)
+            self.bProcess.setHidden(True)
+
+            self.bDownload.setHidden(False)
+        else:
+            self.error_box("Attenzione!", "L'url del video inserito è errato", "")
 
 
-        self.resLabel.setHidden(False)
-        self.resLabel.setText("Inserisci la risoluzione desiderata")
-
-        self.resComboBox.setHidden(False)
-        for res in stream:
-            self.resComboBox.addItem(res)
-        self.bProcess.setHidden(True)
-
-        self.bDownload.setHidden(False)
 
     def succes_box(self, msg, text):
         #beepy.beep(sound=4)
@@ -166,7 +174,7 @@ class InputWidget(QWidget):
             error += "Inserisci un url prima di scaricare qualcosa"
         path = self.lePath.text()
         if path == "":
-            error += "\nInserisci dove scaricare il file"
+            path = str(Path.home() / "Downloads")
 
         if error == "":
             if self.resComboBox.currentText() == "Audio - Mp3":
@@ -184,7 +192,7 @@ class InputWidget(QWidget):
             if downloadVideoByUrl(url, path, res, self.audio):
                 self.succes_box("Download completato", str('Ho finito di scaricare il video.'+
                                                '\nPuoi trovare il file in: '+os.getcwd()))
-                self.madeDownloadZoneHidden()
+
             else:
                 self.error_box("Attenzione!", "", "Non sono riuscito a scaricare il video :(")
         else:
