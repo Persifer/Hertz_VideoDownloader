@@ -44,8 +44,6 @@ class InputWidget(QWidget):
 
         return h_box_button
 
-    def showProcessButton(self):
-        self.bProcess.setHidden(False)
 
     def radio_button(self):
         grid = QtWidgets.QGridLayout()
@@ -96,7 +94,7 @@ class InputWidget(QWidget):
         self.labelUrl = QtWidgets.QLabel("Insert the video url")
         self.leUrl = QtWidgets.QLineEdit()
 
-        self.leUrl.textEdited.connect(self.showProcessButton)
+        self.leUrl.textEdited.connect(self.madeDownloadZoneHidden)
 
         grid_layout.addWidget(self.labelUrl)
         grid_layout.addWidget(self.leUrl)
@@ -105,11 +103,12 @@ class InputWidget(QWidget):
 
     def setButtonHBox(self):
         h_box_button = QtWidgets.QHBoxLayout()
-        self.bProcess = QtWidgets.QPushButton("Download")
+        self.bDownload = QtWidgets.QPushButton("Download")
 
-        self.bProcess.clicked.connect(self.downloadVideo)
+        self.bDownload.clicked.connect(self.downloadVideo)
+        self.bDownload.setHidden(True)
 
-        h_box_button.addWidget(self.bProcess)
+        h_box_button.addWidget(self.bDownload)
 
         return h_box_button
 
@@ -142,17 +141,23 @@ class InputWidget(QWidget):
             self.resComboBox.addItem(res)
         self.bProcess.setHidden(True)
 
-    def succes_box(self):
+        self.bDownload.setHidden(False)
+
+    def succes_box(self, msg, text):
         #beepy.beep(sound=4)
-        QtWidgets.QMessageBox.information(self, 'Download', 'Ho finito di scaricare il video.'+
-                                               '\nPuoi trovare il file in: '+os.getcwd(),
+        QtWidgets.QMessageBox.information(self, msg, text,
                                      QtWidgets.QMessageBox.Ok)
 
-    def error_box(self, text):
+    def error_box(self, errMsg, prelude, text):
         #beepy.beep(sound=4)
-        QtWidgets.QMessageBox.critical(self, 'Errore!', 'Ops, qualcosa è andato storto...'+
+        QtWidgets.QMessageBox.critical(self, errMsg, prelude+
                                                '\n'+text,
                                      QtWidgets.QMessageBox.Ok)
+    def madeDownloadZoneHidden(self):
+        self.resLabel.setHidden(True)
+        self.resComboBox.setHidden(True)
+        self.bDownload.setHidden(True)
+        self.bProcess.setHidden(False)
 
     def downloadVideo(self):
         error = ""
@@ -161,7 +166,7 @@ class InputWidget(QWidget):
             error += "Inserisci un url prima di scaricare qualcosa"
         path = self.lePath.text()
         if path == "":
-            error +=  "\nInserisci dove scaricare il file"
+            error += "\nInserisci dove scaricare il file"
 
         if error == "":
             if self.resComboBox.currentText() == "Audio - Mp3":
@@ -177,8 +182,11 @@ class InputWidget(QWidget):
             print("Audio: " + str(self.audio))
 
             if downloadVideoByUrl(url, path, res, self.audio):
-                self.succes_box()
+                self.succes_box("Download completato", str('Ho finito di scaricare il video.'+
+                                               '\nPuoi trovare il file in: '+os.getcwd()))
+                self.madeDownloadZoneHidden()
             else:
-                self.error_box("Non sono riuscito a scaricare il video :(")
+                self.error_box("Attenzione!", "", "Non sono riuscito a scaricare il video :(")
         else:
-            self.error_box(error)
+            self.error_box("Error", "Ho riscontrato il seguente errore", error)
+

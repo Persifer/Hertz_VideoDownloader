@@ -17,4 +17,8 @@ if __name__=='__main__':
 # 2) Aggiungere la gestione delle playlist
 # 3) Riconoscimento di path e link tramite regex
 # 4) Output dell'errore quando non si riesce a scaricare il video
-# 5) Aggiustare about
+# 5) Disabilitazione/abilitazione bottone download quando è tutto okay | attivazione download dopo aver processato il
+#       video
+
+
+# ^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$
